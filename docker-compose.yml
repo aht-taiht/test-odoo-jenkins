@@ -1,0 +1,26 @@
+version: '3'
+services:
+  web:
+    build: ./dockerfiles/odoo/${ODOO_VERSION}
+    volumes:
+      - ./requirements.txt:/opt/requirements.txt
+      - ./odoo.conf:/etc/odoo/odoo.conf
+      - ./addons:/mnt/extra-addons
+      - ./odoo_storage:/var/lib/odoo
+    command: /bin/bash -c "pip3 install -r /opt/requirements.txt && odoo"
+    environment:
+      - HOST=${DB_HOST}
+      - POST=${DB_PORT}
+      - USER=${DB_USER}
+      - PASSWORD=${DB_PASSWORD}
+    restart: always
+    ports:
+      - "${WEB_PORT}:8069"
+      - "${WEB_LONG_POLLING_PORT}:8072"
+    networks:
+      - default
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
