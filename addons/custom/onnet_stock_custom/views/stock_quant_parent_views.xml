@@ -21,7 +21,7 @@
         <field name="arch" type="xml">
             <form string="Quant parent">
             <header>
-
+		<button name="action_apply_inventories" string="Áp dụng" type="object"/>
             </header>
             <sheet>
                 <group>

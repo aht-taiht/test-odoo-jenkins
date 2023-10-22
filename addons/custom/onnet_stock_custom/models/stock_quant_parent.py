@@ -28,3 +28,7 @@ class StockQuant(models.Model):
         date_by_location = {loc: loc._get_next_inventory_date() for loc in quants.location_id}
         for quant in quants:
             quant.inventory_date = date_by_location[quant.location_id]
+
+    def action_apply_inventories(self):
+        for quant in self.quant_ids:
+            quant.action_apply_inventories()
