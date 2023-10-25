@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="onnet_stock_picking_form_inherit" model="ir.ui.view">
+        <field name="name">onnet.stock.picking.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='o_td_label']" position="replace">
+              <field name="sale_id" invisible="1"/>
+              <div class="o_td_label">
+                  <label for="partner_id" string="Delivery Address" style="font-weight:bold;" attrs="{'invisible': ['|', ('picking_type_code', '!=', 'outgoing'), ('sale_id', '!=', False)]}"/>
+                  <label for="partner_id" string="Receive From" style="font-weight:bold;" attrs="{'invisible': ['|', ('picking_type_code', '!=', 'incoming'), ('sale_id', '!=', False)]}"/>
+                  <label for="partner_id" string="Contact" style="font-weight:bold;" attrs="{'invisible': ['|', ('picking_type_code', 'in', ['incoming', 'outgoing']), ('sale_id', '!=', False)]}"/>
+                  <label for="partner_address" string="Delivery Address" style="font-weight:bold;" attrs="{'invisible': [('sale_id', '=', False)]}"/>
+              </div>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="replace">
+                <field name="sale_id" invisible="1"/>
+                <field name="partner_id" attrs="{'invisible': [('sale_id', '!=', False)]}" nolabel="1"/>
+                <field name="partner_address" attrs="{'invisible': [('sale_id', '=', False)]}" readonly="0" nolabel="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
