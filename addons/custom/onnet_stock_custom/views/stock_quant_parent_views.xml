@@ -7,7 +7,7 @@
         <field name="model">stock.quant.parent</field>
         <field name="priority">2</field>
         <field name="arch" type="xml">
-            <tree string="Sales Orders" sample="1">
+            <tree string="Phiếu kiểm kê" sample="1">
                 <field name="name" invisible="0"/>
                 <field name="location_id"/>
                 <field name="inventory_date"/>
@@ -21,7 +21,6 @@
         <field name="arch" type="xml">
             <form string="Quant parent">
             <header>
-		<button name="action_apply_inventories" string="Áp dụng" type="object"/>
             </header>
             <sheet>
                 <group>
@@ -31,107 +30,66 @@
                     </group>
                     <group>
                         <field name="inventory_date"/>
+                        <button name="action_to_take_inventory" type="object" string="Bắt đầu kiểm kê" class="btn-secondary">
+                            <span>Bắt đầu kiểm kê</span>
+                        </button>
                     </group>
                 </group>
-                <notebook>
-                    <page string="Quants" name="quants">
-                        <field
-                            name="quant_ids"
-                            widget="section_and_note_one2many"
-                            mode="tree"
-                        >
-                            <form>
-                                <header>
-                                    <button name="stock.action_stock_inventory_adjustement_name" groups="stock.group_stock_manager" type="action" string="Apply"/>
-                                    <button name="action_reset" type="object" string="Clear"/>
-                                    <button name="stock.action_stock_request_count" groups="stock.group_stock_manager" type="action" string="Request a Count"/>
-                                </header>
-                                <field name="create_date" invisible="1"/>
-                                <field name="write_date" invisible="1"/>
-                                <field name="id" invisible="1"/>
-                                <field name="is_outdated" invisible="1"/>
-                                <field name="sn_duplicated" invisible="1"/>
-                                <field name="tracking" invisible="1"/>
-                                <field name="inventory_quantity_set" invisible="1"/>
-                                <field name="company_id" invisible="1"/>
-                                <field name="location_id" domain="[('usage', 'in', ['internal', 'transit'])]" attrs="{'readonly': [('id', '!=', False)]}" invisible="context.get('hide_location', False)" options="{'no_create': True}"/>
-                                <field name="storage_category_id" groups="stock.group_stock_storage_categories" invisible="context.get('hide_location', False)" options="{'no_create': True}" optional="hidden"/>
-                                <field name="cyclic_inventory_frequency" invisible="context.get('hide_location', False)" options="{'no_create': True}" optional="hidden"/>
-                                <field name="priority" widget="priority" nolabel="1" optional="hidden"/>
-                                <field name="product_id" attrs="{'readonly': [('id', '!=', False)]}" readonly="context.get('single_product', False)" force_save="1" options="{'no_create': True}"/>
-                                <field name="product_categ_id" optional="hide"/>
-                                <button name="action_warning_duplicated_sn" type="object" attrs="{'invisible': [('sn_duplicated', '=', False)]}" title="This lot/serial number is already in another location" class="btn btn-secondary text-warning float-end" icon="fa-warning"/>
-                                <field name="lot_id" groups="stock.group_production_lot" attrs="{'readonly': ['|', ('tracking', 'not in', ['serial', 'lot']), '&amp;', ('id', '!=', False), '|', ('lot_id', '!=', False), ('quantity', '!=', 0)]}" invisible="context.get('hide_lot', False)" context="{'default_product_id': product_id, 'default_company_id': company_id}" decoration-warning="sn_duplicated" force_save="1"/>
-                                <field name="package_id" groups="stock.group_tracking_lot" attrs="{'readonly': [('id', '!=', False)]}"/>
-                                <field name="owner_id" groups="stock.group_tracking_owner" attrs="{'readonly': [('id', '!=', False)]}" options="{'no_create': True}"/>
-                                <field name="last_count_date" optional="hidden" readonly="1"/>
-                                <field name="available_quantity" string="Available Quantity" decoration-danger="available_quantity &lt; 0" optional="hidden"/>
-                                <field name="quantity" optional="show" decoration-warning="quantity &lt; 0" string="On Hand Quantity"/>
-                                <field name="product_uom_id" groups="uom.group_uom" string="UoM"/>
-                                <field name="inventory_quantity" widget="counted_quantity_widget"/>
-                                <field name="inventory_diff_quantity" string="Difference" attrs="{'invisible': [('inventory_quantity_set', '=', False)]}" decoration-muted="inventory_diff_quantity == 0" decoration-danger="inventory_diff_quantity &lt; 0" decoration-success="inventory_diff_quantity &gt; 0" decoration-bf="inventory_diff_quantity != 0"/>
-                                <field name="inventory_date" optional="show"/>
-                                <field name="user_id" string="User" optional="show"/>
-                                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
-                                <button name="action_inventory_history" type="object" class="btn btn-link text-info" icon="fa-history" string="History"/>
-                                <button name="action_apply_inventory" groups="stock.group_stock_manager" type="object" string="Apply" class="btn btn-link" icon="fa-save" attrs="{'invisible': [('inventory_quantity_set', '=', False)]}"/>
-                                <button name="action_set_inventory_quantity" type="object" string="Set" class="btn btn-link" icon="fa-bullseye" attrs="{'invisible': [('inventory_quantity_set', '=', True)]}"/>
-                                <button name="action_set_inventory_quantity_to_zero" type="object" string="Clear" class="btn text-warning" icon="fa-times" attrs="{'invisible': [('inventory_quantity_set', '=', False)]}"/>
-                            </form>
-                            <tree
-                                string="Sales Order Lines"
-                                editable="bottom"
-                            >
-                                <control>
-                                    <create name="add_product_control" string="Thêm 1 dòng"/>
-                                </control>
-
-                                <header>
-                                    <button name="stock.action_stock_inventory_adjustement_name" groups="stock.group_stock_manager" type="action" string="Apply"/>
-                                    <button name="action_reset" type="object" string="Clear"/>
-                                    <button name="stock.action_stock_request_count" groups="stock.group_stock_manager" type="action" string="Request a Count"/>
-                                </header>
-                                <field name="create_date" invisible="1"/>
-                                <field name="write_date" invisible="1"/>
-                                <field name="id" invisible="1"/>
-                                <field name="is_outdated" invisible="1"/>
-                                <field name="sn_duplicated" invisible="1"/>
-                                <field name="tracking" invisible="1"/>
-                                <field name="inventory_quantity_set" invisible="1"/>
-                                <field name="company_id" invisible="1"/>
-                                <field name="location_id" domain="[('usage', 'in', ['internal', 'transit'])]" attrs="{'readonly': [('id', '!=', False)]}" invisible="context.get('hide_location', False)" options="{'no_create': True}"/>
-                                <field name="storage_category_id" groups="stock.group_stock_storage_categories" invisible="context.get('hide_location', False)" options="{'no_create': True}" optional="hidden"/>
-                                <field name="cyclic_inventory_frequency" invisible="context.get('hide_location', False)" options="{'no_create': True}" optional="hidden"/>
-                                <field name="priority" widget="priority" nolabel="1" optional="hidden"/>
-                                <field name="product_id" attrs="{'readonly': [('id', '!=', False)]}" readonly="context.get('single_product', False)" force_save="1" options="{'no_create': True}"/>
-                                <field name="product_categ_id" optional="hide"/>
-                                <button name="action_warning_duplicated_sn" type="object" attrs="{'invisible': [('sn_duplicated', '=', False)]}" title="This lot/serial number is already in another location" class="btn btn-secondary text-warning float-end" icon="fa-warning"/>
-                                <field name="lot_id" groups="stock.group_production_lot" attrs="{'readonly': ['|', ('tracking', 'not in', ['serial', 'lot']), '&amp;', ('id', '!=', False), '|', ('lot_id', '!=', False), ('quantity', '!=', 0)]}" invisible="context.get('hide_lot', False)" context="{'default_product_id': product_id, 'default_company_id': company_id}" decoration-warning="sn_duplicated" force_save="1"/>
-                                <field name="package_id" groups="stock.group_tracking_lot" attrs="{'readonly': [('id', '!=', False)]}"/>
-                                <field name="owner_id" groups="stock.group_tracking_owner" attrs="{'readonly': [('id', '!=', False)]}" options="{'no_create': True}"/>
-                                <field name="last_count_date" optional="hidden" readonly="1"/>
-                                <field name="available_quantity" string="Available Quantity" decoration-danger="available_quantity &lt; 0" optional="hidden"/>
-                                <field name="quantity" optional="show" decoration-warning="quantity &lt; 0" string="On Hand Quantity"/>
-                                <field name="product_uom_id" groups="uom.group_uom" string="UoM"/>
-                                <field name="inventory_quantity" widget="counted_quantity_widget"/>
-                                <field name="inventory_diff_quantity" string="Difference" attrs="{'invisible': [('inventory_quantity_set', '=', False)]}" decoration-muted="inventory_diff_quantity == 0" decoration-danger="inventory_diff_quantity &lt; 0" decoration-success="inventory_diff_quantity &gt; 0" decoration-bf="inventory_diff_quantity != 0"/>
-                                <field name="inventory_date" optional="show"/>
-                                <field name="user_id" string="User" optional="show"/>
-                                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
-                                <button name="action_inventory_history" type="object" class="btn btn-link text-info" icon="fa-history" string="History"/>
-                                <button name="action_apply_inventory" groups="stock.group_stock_manager" type="object" string="Apply" class="btn btn-link" icon="fa-save" attrs="{'invisible': [('inventory_quantity_set', '=', False)]}"/>
-                                <button name="action_set_inventory_quantity" type="object" string="Set" class="btn btn-link" icon="fa-bullseye" attrs="{'invisible': [('inventory_quantity_set', '=', True)]}"/>
-                                <button name="action_set_inventory_quantity_to_zero" type="object" string="Clear" class="btn text-warning" icon="fa-times" attrs="{'invisible': [('inventory_quantity_set', '=', False)]}"/>
-                            </tree>
-                        </field>
-                    </page>
-                </notebook>
             </sheet>
             </form>
         </field>
     </record>
 
-    <!-- ACTIONS (WINDOW) -->
+    <record id="view_quant_history_tree" model="ir.ui.view">
+        <field name="name">quant.history.tree</field>
+        <field name="model">stock.quant.history</field>
+        <field name="priority">2</field>
+        <field name="arch" type="xml">
+            <tree string="Kiểm kê" sample="1" editable="bottom" create="0" edit="1" import="1">
+                <field name="create_date" invisible="1"/>
+                <field name="write_date" invisible="1"/>
+                <field name="id" invisible="1"/>
+                <field name="product_id" attrs="{'readonly': [('id', '!=', False)]}" readonly="context.get('single_product', False)" force_save="1" options="{'no_create': True}"/>
+                <field name="product_categ_id" optional="hide"/>
+                <field name="quantity" optional="show" decoration-warning="quantity &lt; 0" string="On Hand Quantity"/>
+                <field name="product_uom_id" groups="uom.group_uom" string="UoM"/>
+                <field name="inventory_quantity" widget="counted_quantity_widget"/>
+                <field name="inventory_quantity_set" invisible="1"/>
+                <field name="inventory_diff_quantity" string="Difference" decoration-muted="inventory_diff_quantity == 0" decoration-danger="inventory_diff_quantity &lt; 0" decoration-success="inventory_diff_quantity &gt; 0" decoration-bf="inventory_diff_quantity != 0"/>
+                <field name="inventory_date" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="quant_history_search_view" model="ir.ui.view">
+        <field name="name">quant.history.search</field>
+        <field name="model">stock.quant.history</field>
+        <field eval="10" name="priority"/>
+        <field name="arch" type="xml">
+            <search string="Quants">
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <field name="inventory_date"/>
+                <field name="product_categ_id"/>
+                <field name="product_tmpl_id"/>
+                <field name="lot_id" groups="stock.group_production_lot"/>
+                <group expand='0' string='Filters'>
+                    <filter name='internal_loc' string="Internal Locations" domain="[('location_id.usage','=', 'internal')]"/>
+                    <filter name='transit_loc' string="Transit Locations" domain="[('location_id.usage' ,'=', 'transit')]"/>
+                    <separator/>
+                    <filter name="priority_products" string="Starred Products" domain="[('priority', '=', 1)]"/>
+                    <separator/>
+                    <filter name="negative" string="Negative Stock" domain="[('quantity', '&lt;', 0.0)]"/>
+                </group>
+                <group expand='0' string='Group by...'>
+                    <filter string='Product' name="productgroup" context="{'group_by': 'product_id'}"/>
+                    <filter string='Location' name="locationgroup" domain="[]" context="{'group_by': 'location_id'}"/>
+                    <filter string='Lot/Serial Number' name="Lot_Serial_number" context="{'group_by': 'lot_id'}" groups="stock.group_production_lot"/>
+                    <filter string='Company' name="company" domain="[]" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+               </group>
+            </search>
+        </field>
+    </record>
 
     <record id="action_quant_parent" model="ir.actions.act_window">
         <field name="name">Quant parents</field>
