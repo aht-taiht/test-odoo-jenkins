@@ -1,5 +1,4 @@
-from odoo import _, fields, models
-from odoo.odoo import api
+from odoo import models, fields, api
 
 LOCKED_FIELD_STATES = {
     state: [('readonly', True)]
@@ -19,4 +18,4 @@ class SaleOrder(models.Model):
     @api.depends('partner_id')
     def _compute_address(self):
         for order in self:
-            order.address = order.partner_id.display_name if order.partner_id else False
+            order.address = order.partner_id.contact_address_complete if order.partner_id else False
