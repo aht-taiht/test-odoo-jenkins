@@ -22,7 +22,7 @@ class StockQuantHistoty(models.Model):
 
     parent_id = fields.Many2one('stock.quant.parent')
     quantity = fields.Float(compute='_compute_quantity', store=True)
-    quantity = fields.Float(
+    quantity = fields.Integer(
         'Quantity', readonly=True, store=True)
     lot_id = fields.Many2one(
         'stock.lot', 'Lot/Serial Number', index=True,
@@ -40,6 +40,8 @@ class StockQuantHistoty(models.Model):
         'product.product', 'Product',
         domain=lambda self: self._domain_product_id(),
         ondelete='restrict', required=True, index=True, check_company=True)
+    product_default_code = fields.Char(related='product_id.default_code', string='Mã nội bộ')
+    barcode = fields.Char(related='product_id.barcode', store=True)
     product_tmpl_id = fields.Many2one(
         'product.template', string='Product Template',
         related='product_id.product_tmpl_id')
@@ -52,19 +54,24 @@ class StockQuantHistoty(models.Model):
     location_id = fields.Many2one(related='parent_id.location_id', store=True)
     storage_category_id = fields.Many2one(related='location_id.storage_category_id', store=True)
     cyclic_inventory_frequency = fields.Integer(related='location_id.cyclic_inventory_frequency', store=True)
-    inventory_quantity = fields.Float(
+    inventory_quantity = fields.Integer(
         'Counted Quantity', digits='Product Unit of Measure',
         help="The product's counted quantity.")
-    inventory_diff_quantity = fields.Float(
+    inventory_diff_quantity = fields.Integer(
         'Difference', compute='_compute_inventory_diff_quantity', store=True,
         readonly=True, digits='Product Unit of Measure')
     inventory_quantity_set = fields.Boolean(store=True, compute='_compute_inventory_quantity_set', readonly=False,
                                             default=False)
-    inventory_date = fields.Date('Ngày kiểm kê', related='parent_id.inventory_date', store=True)
+    inventory_date = fields.Datetime('Ngày kiểm kê', default=fields.Datetime.now, store=True)
+    user_id = fields.Many2one('res.users', string='Người kiểm kê')
 
     @api.depends('inventory_quantity')
     def _compute_inventory_quantity_set(self):
         self.inventory_quantity_set = True
+
+    @api.onchange('inventory_quantity')
+    def _onchange_inventory_quantity(self):
+        self.inventory_date = fields.Datetime.now()
 
     @api.depends('inventory_quantity')
     def _compute_inventory_diff_quantity(self):

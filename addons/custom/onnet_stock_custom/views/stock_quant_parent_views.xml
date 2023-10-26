@@ -49,13 +49,15 @@
                 <field name="create_date" invisible="1"/>
                 <field name="write_date" invisible="1"/>
                 <field name="id" invisible="1"/>
-                <field name="product_id" attrs="{'readonly': [('id', '!=', False)]}" readonly="context.get('single_product', False)" force_save="1" options="{'no_create': True}"/>
+                <field name="product_id" attrs="{'readonly': [('id', '!=', False)]}" readonly="context.get('single_product', False)" force_save="1" options="{'no_create': True}" optional="hide"/>
+                <field name="product_default_code"/>
                 <field name="product_categ_id" optional="hide"/>
                 <field name="quantity" optional="show" decoration-warning="quantity &lt; 0" string="On Hand Quantity"/>
                 <field name="product_uom_id" groups="uom.group_uom" string="UoM"/>
-                <field name="inventory_quantity" widget="counted_quantity_widget"/>
                 <field name="inventory_quantity_set" invisible="1"/>
+                <field name="inventory_quantity" widget="counted_quantity_widget"/>
                 <field name="inventory_diff_quantity" string="Difference" decoration-muted="inventory_diff_quantity == 0" decoration-danger="inventory_diff_quantity &lt; 0" decoration-success="inventory_diff_quantity &gt; 0" decoration-bf="inventory_diff_quantity != 0"/>
+                <field name="user_id"/>
                 <field name="inventory_date" optional="show"/>
             </tree>
         </field>
