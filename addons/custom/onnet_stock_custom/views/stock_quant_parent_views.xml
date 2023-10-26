@@ -57,7 +57,7 @@
                 <field name="inventory_quantity_set" invisible="1"/>
                 <field name="inventory_quantity" widget="counted_quantity_widget"/>
                 <field name="inventory_diff_quantity" string="Difference" decoration-muted="inventory_diff_quantity == 0" decoration-danger="inventory_diff_quantity &lt; 0" decoration-success="inventory_diff_quantity &gt; 0" decoration-bf="inventory_diff_quantity != 0"/>
-                <field name="write_uid"/>
+                <field name="user_name"/>
                 <field name="inventory_date" optional="show"/>
             </tree>
         </field>

@@ -63,7 +63,7 @@ class StockQuantHistoty(models.Model):
     inventory_quantity_set = fields.Boolean(store=True, compute='_compute_inventory_quantity_set', readonly=False,
                                             default=False)
     inventory_date = fields.Datetime('Ngày kiểm kê', default=fields.Datetime.now, store=True)
-    write_uid = fields.Many2one(string='Người kiểm kê')
+    user_name = fields.Char(string='Người kiểm kê', related='write_uid.name')
 
     @api.depends('inventory_quantity')
     def _compute_inventory_quantity_set(self):
