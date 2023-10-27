@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_delivery_type"
+        name="Delivery"
+        sequence="10"/>
+    <menuitem id="menu_delivery_type_new"
+              name="Delivery Types"
+              action="action_delivery_type"
+              parent="menu_delivery_type"
+              sequence="5"/>
+
+</odoo>

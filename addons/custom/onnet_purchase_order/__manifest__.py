@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Onnet sales order",
+    'name': "Onnet purchase order",
     'summary': """
         """,
     'description': """
@@ -10,13 +10,12 @@
     'license': 'LGPL-3',
 
     'depends': [
-        'sale_management',
-        'account'
+        'purchase'
     ],
     'installable': True,
     'application': True,
     'sequence': 1,
     'data': [
-        'views/sale_order_view.xml'
+        'views/purchase_order_view.xml'
     ]
 }

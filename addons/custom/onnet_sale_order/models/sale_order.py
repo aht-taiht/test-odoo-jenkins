@@ -15,6 +15,8 @@ class SaleOrder(models.Model):
                           states=LOCKED_FIELD_STATES,
                           domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", )
 
+    delivery_id = fields.Many2one('delivery.type', string="Delivery Type")
+
     @api.depends('partner_id')
     def _compute_address(self):
         for order in self:

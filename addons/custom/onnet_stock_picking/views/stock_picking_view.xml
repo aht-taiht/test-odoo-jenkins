@@ -19,6 +19,20 @@
                 <field name="partner_id" attrs="{'invisible': [('sale_id', '!=', False)]}" nolabel="1"/>
                 <field name="partner_address" attrs="{'invisible': [('sale_id', '=', False)]}" readonly="0" nolabel="1"/>
             </xpath>
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="delivery_id" widget="many2one"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="odoo_vpicktree_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.tree.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="delivery_id" widget="many2one"/>
+            </xpath>
         </field>
     </record>
 </odoo>
