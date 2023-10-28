@@ -11,6 +11,20 @@
             <xpath expr="//field[@name='sale_order_template_id']" position="before">
                 <field name="address" groups="account.group_delivery_invoice_address" context="{'default_type':'delivery'}" options='{"always_reload": True}'/>
             </xpath>
+            <xpath expr="//field[@name='sale_order_template_id']" position="after">
+                <field name="delivery_id" widget="many2one"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="odoo_sale_order_tree_inherit" model="ir.ui.view">
+        <field name="name">odoo.sale.order.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="delivery_id" widget="many2one"/>
+            </xpath>
         </field>
     </record>
 </odoo>
