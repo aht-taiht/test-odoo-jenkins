@@ -58,8 +58,8 @@
                 <field name="inventory_quantity" widget="counted_quantity_widget"/>
                 <field name="inventory_diff_quantity" string="Difference" decoration-muted="inventory_diff_quantity == 0" decoration-danger="inventory_diff_quantity &lt; 0" decoration-success="inventory_diff_quantity &gt; 0" decoration-bf="inventory_diff_quantity != 0"/>
                 <field name="note"/>
-                <field name="user_id"/>
-                <field name="inventory_date" optional="show"/>
+                <field name="user_id" force_save="1"/>
+                <field name="inventory_date" optional="show" force_save="1"/>
             </tree>
         </field>
     </record>
