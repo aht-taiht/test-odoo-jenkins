@@ -62,13 +62,14 @@ class StockQuantHistoty(models.Model):
         readonly=True, digits='Product Unit of Measure')
     inventory_quantity_set = fields.Boolean(store=True, compute='_compute_inventory_quantity_set', readonly=False,
                                             default=False)
-    inventory_date = fields.Datetime('Ngày kiểm kê', default=fields.Datetime.now, store=True)
-    user_id = fields.Many2one('res.users', string='Người kiểm kê')
+    inventory_date = fields.Datetime('Ngày kiểm kê', default=fields.Datetime.now, store=True, readonly=True)
+    user_id = fields.Many2one('res.users', string='Người kiểm kê', readonly=True)
     note = fields.Char(string='Ghi chú')
 
     @api.depends('inventory_quantity')
     def _compute_inventory_quantity_set(self):
         self.inventory_quantity_set = True
+        self.user_id = self.env.user.id
 
     @api.onchange('inventory_quantity')
     def _onchange_inventory_quantity(self):
