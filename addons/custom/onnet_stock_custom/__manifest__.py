@@ -18,5 +18,10 @@
     'data': [
         'views/stock_quant_parent_views.xml',
         'security/ir.model.access.csv'
-    ]
+    ],
+    'assets': {
+        'web.assets_backend': [
+            'onnet_stock_custom/static/src/css/quant_mobile.css',
+        ]
+    }
 }

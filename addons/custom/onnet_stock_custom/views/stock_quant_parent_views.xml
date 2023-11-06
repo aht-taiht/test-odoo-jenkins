@@ -45,7 +45,7 @@
         <field name="model">stock.quant.history</field>
         <field name="priority">2</field>
         <field name="arch" type="xml">
-            <tree string="Kiểm kê" sample="1" editable="bottom" create="0" edit="1" import="1">
+            <tree string="Kiểm kê" class="quant-mb" sample="1" editable="bottom" create="0" edit="1" import="1">
                 <field name="create_date" invisible="1"/>
                 <field name="write_date" invisible="1"/>
                 <field name="id" invisible="1"/>
