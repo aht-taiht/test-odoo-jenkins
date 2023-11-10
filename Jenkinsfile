@@ -10,7 +10,6 @@ pipeline {
     stage("Test") {
       agent any
       steps {
-        sh ". .env"
         sh "cp odoo.conf.template odoo.conf"
         sh "docker image prune -f"
         sh "docker-compose -f docker-compose-gitlab-ci.yml build --no-cache"
