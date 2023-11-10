@@ -8,7 +8,7 @@ pipeline {
 
   stages {
     stage("Test") {
-      agent none
+      agent any
       steps {
         sh "source .env"
         sh "cp odoo.conf.template odoo.conf"
