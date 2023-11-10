@@ -1,7 +1,7 @@
 version: '3'
 services:
   database:
-    container_name: ${CI_PROJECT_NAME}_database_${CI_COMMIT_BRANCH}
+    container_name: database
     image: ${DOCKER_USER}/postgres${POSTGRES_VERSION}:latest
     ports:
       - ${DB_PORT}:5432
@@ -16,7 +16,7 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - PGDATA=/var/lib/postgresql/data/pg_data
   web:
-    container_name: ${CI_PROJECT_NAME}_web_${CI_COMMIT_BRANCH}
+    container_name: web
     image: ${DOCKER_USER}/odoo${ODOO_VERSION}:latest
     volumes:
       - ./requirements.txt:/opt/requirements.txt
