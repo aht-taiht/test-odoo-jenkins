@@ -15,6 +15,7 @@ pipeline {
         sh "docker-compose -f docker-compose-gitlab-ci.yml build --no-cache"
         sh "docker-compose -f docker-compose-gitlab-ci.yml up -d"
         sh "docker-compose restart"
+        sh '/bin/bash -c "odoo"'
       }
     }
 
