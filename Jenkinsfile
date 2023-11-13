@@ -8,7 +8,7 @@ pipeline {
 
   stages {
     stage("Test") {
-      agent { label 'Built-In Node' }
+      agent any
       steps {
         sh "cp odoo.conf.template odoo.conf"
         sh "docker image prune -f"
