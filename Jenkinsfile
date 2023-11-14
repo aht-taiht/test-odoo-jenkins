@@ -15,7 +15,6 @@ pipeline {
         sh "docker-compose -f docker-compose-gitlab-ci.yml build --no-cache"
         sh "docker-compose -f docker-compose-gitlab-ci.yml up -d"
         sh "docker-compose restart"
-        sh 'docker-compose exec --user root web bash -c "pip3 install -r /opt/requirements.txt && odoo"'
       }
     }
 
